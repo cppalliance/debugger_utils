@@ -4,7 +4,7 @@
 # Distributed under the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 #
-# Official repository: https://github.com/cppalliance/pretty_printers
+# Official repository: https://github.com/cppalliance/debugger_utils
 #
 
 import common ;
@@ -67,7 +67,7 @@ rule embed-gdb-extension ( target : sources + : requirements *
 
     make $(target)
         : $(sources)
-        : @boost-pretty-printers.run-embed-gdb-extension
+        : @boost-debugger-utils.run-embed-gdb-extension
         : $(requirements)
           <dependency>$(.gdb-embed-script)
         : $(usage-requirements)
@@ -85,7 +85,7 @@ rule test-gdb-printers ( target : sources + : requirements * : default-build *
     local test-runner = _$(target:S=.py) ;
     generate $(test-runner)
         : $(sources)
-        : <generating-rule>@boost-pretty-printers.generate-gdb-test-runner-aux
+        : <generating-rule>@boost-debugger-utils.generate-gdb-test-runner-aux
           <dependency>$(.gdb-test-generator-script)
         ;
     $(project).mark-target-as-explicit $(test-runner) ;
@@ -134,8 +134,8 @@ actions run-embed-gdb-extension
 {
     "$(PYTHON:E=python)" "$(RUNNER)" $(>[1]) $(<) $(FLAGS)
 }
-toolset.flags boost-pretty-printers.run-embed-gdb-extension FLAGS <flags> ;
-toolset.flags boost-pretty-printers.run-embed-gdb-extension PYTHON <python.interpreter> ;
+toolset.flags boost-debugger-utils.run-embed-gdb-extension FLAGS <flags> ;
+toolset.flags boost-debugger-utils.run-embed-gdb-extension PYTHON <python.interpreter> ;
 
 rule generate-gdb-test-runner-aux ( project name : property-set : sources + )
 {
@@ -148,7 +148,7 @@ rule generate-gdb-test-runner-aux ( project name : property-set : sources + )
         }
     }
 
-    local action-name = boost-pretty-printers.generate-gdb-test-runner ;
+    local action-name = boost-debugger-utils.generate-gdb-test-runner ;
     local relevant = [ toolset.relevant $(action-name) ] ;
     local reqs = [ $(property-set).relevant $(relevant) ] ;
     reqs = [ $(reqs).add-raw [ $(property-set).dependency ] ] ;
@@ -175,7 +175,7 @@ actions generate-gdb-test-runner
 {
     "$(PYTHON:E=python)" "$(RUNNER)" $(>) -o $(<)
 }
-toolset.flags boost-pretty-printers.generate-gdb-test-runner PYTHON <python.interpreter> ;
+toolset.flags boost-debugger-utils.generate-gdb-test-runner PYTHON <python.interpreter> ;
 
 rule warn-if-not-configuered ( )
 {
@@ -183,8 +183,8 @@ rule warn-if-not-configuered ( )
 
     if ! $(.initialized)
     {
-        echo "warning: module boost-pretty-printers was not initialized!" ;
-        echo "  add \"using boost-pretty-printers ;\" to your build scripts." ;
+        echo "warning: module boost-debugger-utils was not initialized!" ;
+        echo "  add \"using boost-debugger-utils ;\" to your build scripts." ;
     }
 
     if ! [ python.configured ]

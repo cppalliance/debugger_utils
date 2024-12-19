@@ -5,7 +5,7 @@
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 #
 
-import boost-pretty-printers : * ;
+import boost-debugger-utils : * ;
 import param ;
 import testing ;
 
@@ -35,7 +35,7 @@ lib testlib
     ;
 
 test-gdb-printers test_gdb : [ glob *.cpp ] testlib ;
-if ! [ boost-pretty-printers.has-gdb ]
+if ! [ boost-debugger-utils.has-gdb ]
 {
     explicit test_gdb ;
 }

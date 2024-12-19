@@ -6,12 +6,12 @@
 #
 
 
-import boost-pretty-printers ;
+import boost-debugger-utils ;
 
-boost-pretty-printers.test-gdb-printers test_gdb_printers
+boost-debugger-utils.test-gdb-printers test_gdb_printers
     : printers.cpp ..//example ;
 # we avoid making presence of GDB a hard requirement for testing the project
-if ! [ boost-pretty-printers.has-gdb ]
+if ! [ boost-debugger-utils.has-gdb ]
 {
     explicit test_gdb_printers ;
 }

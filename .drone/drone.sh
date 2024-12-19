@@ -49,7 +49,7 @@ cmake_variation () {
     fi
 
     cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON ${BUILD_SHARED_LIBS} \
-        "-DCMAKE_MODULE_PATH=$boost_pretty_printers" ${CMAKE_OPTIONS} ../..
+        "-DCMAKE_MODULE_PATH=$boost_debugger_utils" ${CMAKE_OPTIONS} ../..
     cmake --build . --target "${target}"
     ctest --output-on-failure
     popd
@@ -63,12 +63,12 @@ cmake_job () {
     echo '==================================> SCRIPT'
 
     export CXXFLAGS="-Wall -Wextra -Werror"
-    variation_link=static boost_pretty_printers=$PWD cmake_variation
-    variation_link=shared boost_pretty_printers=$PWD cmake_variation
+    variation_link=static boost_debugger_utils=$PWD cmake_variation
+    variation_link=shared boost_debugger_utils=$PWD cmake_variation
 
     cd example
-    variation_link=shared boost_pretty_printers=$PWD/.. target=all cmake_variation
-    variation_link=static boost_pretty_printers=$PWD/.. target=all cmake_variation
+    variation_link=shared boost_debugger_utils=$PWD/.. target=all cmake_variation
+    variation_link=static boost_debugger_utils=$PWD/.. target=all cmake_variation
 }
 
 if [ "$DRONE_JOB_BUILDTYPE" == "b2" ]; then

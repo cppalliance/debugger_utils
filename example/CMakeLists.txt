@@ -14,7 +14,7 @@ project(example_project VERSION 1.0 LANGUAGES CXX)
 
 # the packacge is optional, because we check in the generated header, so that
 # consumers aren't required to have Python 3 installed
-find_package(BoostPrettyPrinters COMPONENTS GDB)
+find_package(BoostDebuggerUtils COMPONENTS GDB)
 
 add_library(example src/example.cpp)
 add_library(Example::example ALIAS example)
@@ -22,8 +22,8 @@ target_include_directories(example PUBLIC include)
 
 # we avoid making the ability to regenerate GDB pretty printers a hard
 # requirement of building the project
-if(BoostPrettyPrinters_FOUND)
-    boost_pretty_printers_embed_gdb_extension(
+if(BoostDebuggerUtils_FOUND)
+    boost_debugger_utils_embed_gdb_extension(
         TARGET regenerate_printers
         INPUT include/example/gdb_printers.py
         OUTPUT include/example/gdb_printers.hpp

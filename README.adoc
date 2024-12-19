@@ -1,19 +1,19 @@
-= BoostPrettyPrinters
+= BoostDebuggerUtils
 :toc: preamble
 
 |===
 | Branch | Drone CI
 
-| https://github.com/cppalliance/pretty_printers/tree/master[`master`]
-| image:https://drone.cpp.al/api/badges/cppalliance/pretty_printers/status.svg?ref=refs/heads/master[master builds,link=https://drone.cpp.al/cppalliance/pretty_printers]
+| https://github.com/cppalliance/debugger_utils/tree/master[`master`]
+| image:https://drone.cpp.al/api/badges/cppalliance/debugger_utils/status.svg?ref=refs/heads/master[master builds,link=https://drone.cpp.al/cppalliance/debugger_utils]
 
-| https://github.com/cppalliance/pretty_printers/tree/develop[`develop`]
-| image:https://drone.cpp.al/api/badges/cppalliance/pretty_printers/status.svg?ref=refs/heads/develop[develop builds,link=https://drone.cpp.al/cppalliance/pretty_printers]
+| https://github.com/cppalliance/debugger_utils/tree/develop[`develop`]
+| image:https://drone.cpp.al/api/badges/cppalliance/debugger_utils/status.svg?ref=refs/heads/develop[develop builds,link=https://drone.cpp.al/cppalliance/debugger_utils]
 |===
 
 ____
-A collection of helpers for convenient use of GDB pretty printers with
-accompanying build system modules.
+A collection of helpers for convenient use of debuggers with accompanying build
+system modules.
 ____
 
 WARNING: Not an official Boost tool yet!
@@ -48,9 +48,9 @@ necessary flag to enable autoloading of extensions.
 
 ```cmake
 # CMakeLists.txt
-find_package(BoostPrettyPrinters)
-if(BoostPrettyPrinters_FOUND)
-    boost_pretty_printers_embed_gdb_extension(
+find_package(BoostDebuggerUtils)
+if(BoostDebuggerUtils_FOUND)
+    boost_debugger_utils_embed_gdb_extension(
         TARGET regenerate_printers
         INPUT gdb_printers.py
         OUTPUT include/myproject/gdb_printers.hpp
@@ -58,8 +58,8 @@ if(BoostPrettyPrinters_FOUND)
 endif()
 
 # test/CMakeLists.txt
-if(BoostPrettyPrinters_GDB_FOUND)
-    boost_pretty_printers_test_gdb_printers(
+if(BoostDebuggerUtils_GDB_FOUND)
+    boost_debugger_utils_test_gdb_printers(
         TEST test_gdb_printers
         SOURCES printers.cpp
         EXCLUDE_FROM_ALL)
@@ -68,22 +68,22 @@ endif()
 ```
 
 Note: In order for `find_package` to find the provided CMake module you
-need to append the installation directory of PrettyPrinters to
+need to append the installation directory of DebuggerUtils to
 `CMAKE_MODULE_PATH` variable. This is normally done either from the command
 line or via presets. For example:
 
 ```sh
-cmake -S.. -B. -DCMAKE_MODULE_PATH=path/to/pretty_printers
+cmake -S.. -B. -DCMAKE_MODULE_PATH=path/to/debugger_utils
 ```
 
 === b2
 
 ```jam
 # build.jam
-using boost-pretty-printers ;
+using boost-debugger-utils ;
 
-import boost-pretty-printers ;
-boost-pretty-printers.gdb-python-header gdb_printers.hpp
+import boost-debugger-utils ;
+boost-debugger-utils.gdb-python-header gdb_printers.hpp
     : gdb_printers.py
     : <location>include/mymproject
     ;
@@ -92,8 +92,8 @@ alias regenerate-printers : gdb_printers.hpp ;
 explicit regenerate-printers gdb_printers.hpp ;
 
 # test/build.jam
-import boost-pretty-printers ;
-boost-pretty-printers.test-gdb-printers gdb-printers
+import boost-debugger-utils ;
+boost-debugger-utils.test-gdb-printers gdb-printers
     : printers.cpp
       ..//myproject
     ;
@@ -105,30 +105,30 @@ explicit gdb-printers ;
 === CMake module
 
 ```
-find_package(BoostPrettyPrinters [QUIET])
+find_package(BoostDebuggerUtils [QUIET])
 ```
 
 The package has only one component: `GDB`.
 
 ==== Imported targets
-BoostPrettyPrinters::GDB:: The GDB executable to use. This target is defined
+BoostDebuggerUtils::GDB:: The GDB executable to use. This target is defined
     only if the `GDB` component is found.
 
 ==== Variables
 This module will set the following variables in your project:.
 
-BoostPrettyPrinters_FOUND:: True if both the module and a Python 3 Interpreter
+BoostDebuggerUtils_FOUND:: True if both the module and a Python 3 Interpreter
     were found.
 
-BoostPrettyPrinters_GDB_FOUND:: True if GDB executable was found.
+BoostDebuggerUtils_GDB_FOUND:: True if GDB executable was found.
 
-BoostPrettyPrinters_GDB_EXECUTABLE:: The GDB executable to use.
+BoostDebuggerUtils_GDB_EXECUTABLE:: The GDB executable to use.
 
 ==== Functions
 
-===== boost_pretty_printers_embed_gdb_extension
+===== boost_debugger_utils_embed_gdb_extension
 ```
-boost_pretty_printers_embed_gdb_extension(
+boost_debugger_utils_embed_gdb_extension(
     TARGET target
     INPUT input
     OUTPUT output
@@ -144,9 +144,9 @@ target.
 `FLAGS` are addtional flags passed to <<embed-gdb-extension-py>>, e.g.
 `--header-guard=` or `--disable-macro=`.
 
-===== boost_pretty_printers_test_gdb_printers
+===== boost_debugger_utils_test_gdb_printers
 ```
-boost_pretty_printers_test_gdb_printers(
+boost_debugger_utils_test_gdb_printers(
     TEST test
     [PROGRAM program]
     SOURCES [srcs...]
@@ -168,7 +168,7 @@ target will not be added to the default build target.
 === b2 module
 
 ```
-using boost-pretty-printers : [path/to/gdb] ;
+using boost-debugger-utils : [path/to/gdb] ;
 ```
 
 ==== Rules

@@ -12,8 +12,8 @@ if(NOT BUILD_TESTING)
 endif()
 
 # we avoid making presence of GDB a hard requirement for testing the project
-if(BoostPrettyPrinters_GDB_FOUND)
-    boost_pretty_printers_test_gdb_printers(
+if(BoostDebuggerUtils_GDB_FOUND)
+    boost_debugger_utils_test_gdb_printers(
         TEST test_gdb_printers
         SOURCES printers.cpp)
     target_link_libraries(test_gdb_printers PRIVATE Example::example)

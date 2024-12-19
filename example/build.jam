@@ -5,14 +5,14 @@
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 #
 
-using boost-pretty-printers ;
+using boost-debugger-utils ;
 
-import boost-pretty-printers ;
+import boost-debugger-utils ;
 import python ;
 
 project example ;
 
-boost-pretty-printers.embed-gdb-extension gdb_printers.hpp
+boost-debugger-utils.embed-gdb-extension gdb_printers.hpp
     : include/example/gdb_printers.py
     : <location>include/example
       # we set the header guard macro to something more project-specific

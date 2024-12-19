@@ -10,7 +10,7 @@ import gdb.printing
 
 
 collection = gdb.printing.RegexpCollectionPrettyPrinter(
-    'BoostPrettyPrintersTest')
+    'BoostDebuggerUtilsTest')
 def register(printer, ns=None, template=False):
     typename = getattr(printer, '__name__')
     ns = ns or 'testlib'

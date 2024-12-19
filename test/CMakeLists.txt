@@ -12,7 +12,7 @@ add_test(
     ${CMAKE_CURRENT_SOURCE_DIR}/gdb.py)
 
 
-boost_pretty_printers_embed_gdb_extension(
+boost_debugger_utils_embed_gdb_extension(
     TARGET generate-gdb-hpp
     INPUT gdb.py
     OUTPUT include/testlib/gdb.hpp
@@ -22,9 +22,9 @@ add_library(testlib lib/testlib.cpp)
 target_include_directories(testlib PUBLIC include)
 add_dependencies(testlib generate-gdb-hpp)
 
-if(BoostPrettyPrinters_GDB_FOUND)
+if(BoostDebuggerUtils_GDB_FOUND)
     FILE(GLOB gdb_test_srcs CONFIGURE_DEPENDS *.cpp)
-    boost_pretty_printers_test_gdb_printers(
+    boost_debugger_utils_test_gdb_printers(
         TEST test_gdb
         SOURCES ${gdb_test_srcs})
     target_link_libraries(test_gdb PRIVATE testlib)
